@@ -3,6 +3,8 @@ from discord.ext import commands
 from datetime import datetime
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+import os
+import json
 
 TOKEN = "봇토큰"
 
@@ -11,8 +13,10 @@ scope = [
     "https://www.googleapis.com/auth/drive"
 ]
 
-creds = ServiceAccountCredentials.from_json_keyfile_name(
-    "credentials.json", scope
+google_creds = json.loads(os.getenv("GOOGLE_CREDENTIALS"))
+
+creds = ServiceAccountCredentials.from_json_keyfile_dict(
+    google_creds, scope
 )
 
 client_sheet = gspread.authorize(creds)
